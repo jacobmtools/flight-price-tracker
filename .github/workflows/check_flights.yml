@@ -41,10 +41,12 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase
           git add history_gye_yyz.csv
-          git diff --staged --quiet || git commit -m "GYE→YYZ price update [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "GYE→YYZ price update [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git pull --rebase origin main
           git push
+
 
   # ─────────────────────────────────────────────
   # JOB 2: YYZ → GYE (Jun 8 — return to Guayaquil)
@@ -80,7 +82,9 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase
           git add history_yyz_gye.csv
-          git diff --staged --quiet || git commit -m "YYZ→GYE price update [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "YYZ→GYE price update [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git pull --rebase origin main
           git push
+
