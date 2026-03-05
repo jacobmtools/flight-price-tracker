@@ -23,10 +23,6 @@ RETURN_DATE      = os.environ.get("RETURN_DATE", "2026-06-08")
 HISTORY_FILE     = os.environ.get("HISTORY_FILE", "price_history.csv")
 
 
-# Fixed travel dates (format: YYYY-MM-DD)
-OUTBOUND_DATE = "2026-05-11"   # Your departure date
-RETURN_DATE = "2026-06-08"     # Your return date
-
 # These are read from GitHub Secrets (set in Step 3)
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY", "")
 NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "")
