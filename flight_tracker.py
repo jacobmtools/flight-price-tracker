@@ -16,7 +16,7 @@ from urllib import request, parse, error
 
 ORIGIN = "GYE"          # Departure airport IATA code (Guayaquil)
 DESTINATION = "YYZ"     # Arrival airport IATA code (Toronto Pearson)
-TRIP_TYPE = 1           # 1 = Round trip, 2 = One way
+TRIP_TYPE = 2           # 1 = Round trip, 2 = One way
 CURRENCY = "CAD"        # Currency code (CAD, USD, EUR, etc.)
 HISTORY_FILE = "price_history.csv"
 
