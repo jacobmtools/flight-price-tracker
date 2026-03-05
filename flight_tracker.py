@@ -10,15 +10,18 @@ import json
 from datetime import datetime, timedelta
 from urllib import request, parse, error
 
-# ─────────────────────────────────────────────
-# CONFIGURATION — Edit these to match your route
-# ─────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────
+# CONFIGURATION — now reads from environment variables set per-job.
+# This lets the same script serve multiple routes without editing it.
+# ─────────────────────────────────────────────────────────────────
+ORIGIN           = os.environ.get("ORIGIN", "GYE")
+DESTINATION      = os.environ.get("DESTINATION", "YYZ")
+TRIP_TYPE        = int(os.environ.get("TRIP_TYPE", "2"))   # 2 = one-way
+CURRENCY         = os.environ.get("CURRENCY", "CAD")
+OUTBOUND_DATE    = os.environ.get("OUTBOUND_DATE", "2026-05-11")
+RETURN_DATE      = os.environ.get("RETURN_DATE", "2026-06-08")
+HISTORY_FILE     = os.environ.get("HISTORY_FILE", "price_history.csv")
 
-ORIGIN = "GYE"          # Departure airport IATA code (Guayaquil)
-DESTINATION = "YYZ"     # Arrival airport IATA code (Toronto Pearson)
-TRIP_TYPE = 2           # 1 = Round trip, 2 = One way
-CURRENCY = "CAD"        # Currency code (CAD, USD, EUR, etc.)
-HISTORY_FILE = "price_history.csv"
 
 # Fixed travel dates (format: YYYY-MM-DD)
 OUTBOUND_DATE = "2026-05-11"   # Your departure date
