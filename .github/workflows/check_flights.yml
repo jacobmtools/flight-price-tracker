@@ -1,47 +1,86 @@
-# This file tells GitHub Actions WHEN and HOW to run your flight tracker.
-
 name: Check Flight Prices
 
-# WHEN to run:
 on:
   schedule:
-    # Run every 6 hours: at midnight, 6 AM, noon, and 6 PM (UTC time)
-    # Cron format: "minute hour day-of-month month day-of-week"
-    - cron: '0 */6 * * *'
+    - cron: '23 */6 * * *'   # Every 6 hours at :23 (avoids peak-hour delays)
+  workflow_dispatch:
 
-  workflow_dispatch: # Adds a button to run manually anytime
-
-# WHAT to run:
 jobs:
-  check-prices:
-    runs-on: ubuntu-latest # Use a free Linux computer from GitHub
+
+  # ─────────────────────────────────────────────
+  # JOB 1: GYE → YYZ (May 11 — outbound to Toronto)
+  # ─────────────────────────────────────────────
+  gye-to-yyz:
+    name: "GYE → YYZ (May 11)"
+    runs-on: ubuntu-latest
     permissions:
-      contents: write # Allow saving files back to the repo
+      contents: write
 
     steps:
-      # Step 1: Download your repository's code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Install Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      # Step 3: Run the flight tracker script
-      # The 'env' section passes your secrets to the script securely
-      - name: Run flight tracker
+      - name: Run tracker — GYE to YYZ
         env:
-          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          SERPAPI_KEY:   ${{ secrets.SERPAPI_KEY }}
+          NTFY_TOPIC:    ${{ secrets.NTFY_TOPIC }}
+          ORIGIN:        "GYE"
+          DESTINATION:   "YYZ"
+          TRIP_TYPE:     "2"
+          OUTBOUND_DATE: "2026-05-11"
+          CURRENCY:      "CAD"
+          HISTORY_FILE:  "history_gye_yyz.csv"   # ← its own separate file
         run: python flight_tracker.py
 
-      # Step 4: Save the updated price history back to the repository
-      - name: Commit price history
+      - name: Commit GYE→YYZ price history
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add price_history.csv
-          git diff --staged --quiet || git commit -m "Update price history [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git pull --rebase
+          git add history_gye_yyz.csv
+          git diff --staged --quiet || git commit -m "GYE→YYZ price update [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git push
+
+  # ─────────────────────────────────────────────
+  # JOB 2: YYZ → GYE (Jun 8 — return to Guayaquil)
+  # ─────────────────────────────────────────────
+  yyz-to-gye:
+    name: "YYZ → GYE (Jun 8)"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run tracker — YYZ to GYE
+        env:
+          SERPAPI_KEY:   ${{ secrets.SERPAPI_KEY }}
+          NTFY_TOPIC:    ${{ secrets.NTFY_TOPIC }}
+          ORIGIN:        "YYZ"
+          DESTINATION:   "GYE"
+          TRIP_TYPE:     "2"
+          OUTBOUND_DATE: "2026-06-08"
+          CURRENCY:      "CAD"
+          HISTORY_FILE:  "history_yyz_gye.csv"   # ← its own separate file
+        run: python flight_tracker.py
+
+      - name: Commit YYZ→GYE price history
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
+          git add history_yyz_gye.csv
+          git diff --staged --quiet || git commit -m "YYZ→GYE price update [$(date -u +'%Y-%m-%d %H:%M UTC')]"
           git push
