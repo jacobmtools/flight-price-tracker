@@ -16,11 +16,13 @@ from urllib import request, parse, error
 
 ORIGIN = "GYE"          # Departure airport IATA code (Guayaquil)
 DESTINATION = "YYZ"     # Arrival airport IATA code (Toronto Pearson)
-SEARCH_DAYS_AHEAD = 60  # How many days ahead to search for flights
 TRIP_TYPE = 1           # 1 = Round trip, 2 = One way
-RETURN_DAYS_AFTER = 28  # For round trips: return this many days after departure
 CURRENCY = "CAD"        # Currency code (CAD, USD, EUR, etc.)
 HISTORY_FILE = "price_history.csv"
+
+# Fixed travel dates (format: YYYY-MM-DD)
+OUTBOUND_DATE = "2026-05-11"   # Your departure date
+RETURN_DATE = "2026-06-08"     # Your return date
 
 # These are read from GitHub Secrets (set in Step 3)
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY", "")
@@ -32,8 +34,8 @@ def search_flights():
     Ask SerpApi for Google Flights data on our route.
     Returns a dictionary with flight offers and price insights.
     """
-    departure_date = (datetime.now() + timedelta(days=SEARCH_DAYS_AHEAD)).strftime("%Y-%m-%d")
-    return_date = (datetime.now() + timedelta(days=SEARCH_DAYS_AHEAD + RETURN_DAYS_AFTER)).strftime("%Y-%m-%d")
+    departure_date = OUTBOUND_DATE
+    return_date = RETURN_DATE
 
     params = {
         "engine": "google_flights",
@@ -176,13 +178,12 @@ def send_notification(message):
     Uses urllib with manually set bytes headers to avoid Unicode/latin-1 encoding errors.
     """
     if not NTFY_TOPIC:
-        print(" No NTFY_TOPIC set — skipping notification.")
+        print(" No NTFY_TOPIC set - skipping notification.")
         return
     url = f"https://ntfy.sh/{NTFY_TOPIC}"
     data = message.encode("utf-8")
     req = request.Request(url, data=data, method="POST")
-    # Use encode("utf-8") for headers to avoid latin-1 codec errors with emoji
-    req.add_unredirected_header("Title", "Flight Deal Alert!".encode("utf-8").decode("latin-1", errors="replace"))
+    req.add_unredirected_header("Title", "Flight Deal Alert!")
     req.add_unredirected_header("Priority", "high")
     req.add_unredirected_header("Tags", "airplane,moneybag")
     req.add_unredirected_header("Content-Type", "text/plain; charset=utf-8")
@@ -196,12 +197,10 @@ def send_notification(message):
 
 def main():
     """Main function that ties everything together."""
-    departure_date = (datetime.now() + timedelta(days=SEARCH_DAYS_AHEAD)).strftime("%b %d, %Y")
-
     print(f"{'='*55}")
-    print(f" Flight Price Tracker — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f" Flight Price Tracker - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print(f" Route: {ORIGIN} -> {DESTINATION}")
-    print(f" Searching for: {departure_date}")
+    print(f" Outbound: {OUTBOUND_DATE} | Return: {RETURN_DATE}")
     print(f"{'='*55}")
 
     print("\n1. Fetching flight data from Google Flights (via SerpApi)...")
@@ -221,6 +220,7 @@ def main():
         print(" No flight data found for this route/date.")
         print(" Try a different date or a more common route.")
         return
+
     price = price_info["cheapest_price"]
     level = price_info.get("price_level", "unknown")
     typical_low = price_info.get("typical_low")
@@ -252,7 +252,7 @@ def main():
             message += f"Typical range: {CURRENCY} {typical_low} - {CURRENCY} {typical_high}\n"
         message += (
             f"Airline: {airline}\n"
-            f"Depart: {departure_date}"
+            f"Outbound: {OUTBOUND_DATE} | Return: {RETURN_DATE}"
         )
         print(f"\n DEAL! Sending notification...")
         send_notification(message)
@@ -263,6 +263,7 @@ def main():
         send_notification(
             f"Flight tracker started!\n"
             f"Route: {ORIGIN} -> {DESTINATION}\n"
+            f"Dates: {OUTBOUND_DATE} to {RETURN_DATE}\n"
             f"First price: {CURRENCY} {price} ({level})\n"
             f"Checking every 6 hours for deals."
         )
