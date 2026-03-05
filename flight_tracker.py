@@ -14,11 +14,11 @@ from urllib import request, parse, error
 # CONFIGURATION — Edit these to match your route
 # ─────────────────────────────────────────────
 
-ORIGIN = "YYZ"          # Departure airport IATA code (Toronto Pearson)
-DESTINATION = "GYE"     # Arrival airport IATA code (Guayaquil)
-SEARCH_DAYS_AHEAD = 30  # How many days ahead to search for flights
+ORIGIN = "GYE"          # Departure airport IATA code (Guayaquil)
+DESTINATION = "YYZ"     # Arrival airport IATA code (Toronto Pearson)
+SEARCH_DAYS_AHEAD = 60  # How many days ahead to search for flights
 TRIP_TYPE = 1           # 1 = Round trip, 2 = One way
-RETURN_DAYS_AFTER = 14  # For round trips: return this many days after departure
+RETURN_DAYS_AFTER = 28  # For round trips: return this many days after departure
 CURRENCY = "CAD"        # Currency code (CAD, USD, EUR, etc.)
 HISTORY_FILE = "price_history.csv"
 
