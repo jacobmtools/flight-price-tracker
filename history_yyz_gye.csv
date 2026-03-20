@@ -60,3 +60,4 @@ date,price,route,currency,price_level,typical_low,typical_high,airline
 2026-03-19 20:00,368,YYZ-GYE,CAD,high,240,340,Delta
 2026-03-20 05:09,368,YYZ-GYE,CAD,high,240,340,Delta
 2026-03-20 08:02,368,YYZ-GYE,CAD,high,240,340,Delta
+2026-03-20 15:13,368,YYZ-GYE,CAD,high,240,340,Avianca
