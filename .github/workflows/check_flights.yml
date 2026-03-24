@@ -2,7 +2,7 @@ name: Check Flight Prices
 
 on:
   schedule:
-    - cron: '23 */6 * * *'   # Every 6 hours at :23 (avoids peak-hour delays)
+    - cron: '23 */8 * * *'   # Every 6 hours at :23 (avoids peak-hour delays)
   workflow_dispatch:
 
 jobs:
