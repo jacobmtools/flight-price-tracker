@@ -11,7 +11,7 @@ jobs:
   # JOB 1: GYE → YYZ (May 11 — outbound to Toronto)
   # ─────────────────────────────────────────────
   gye-to-yyz:
-    name: "GYE → YYZ (May 11)"
+    name: "GYE → YYZ (Sep 11)"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -32,7 +32,7 @@ jobs:
           ORIGIN:        "GYE"
           DESTINATION:   "YYZ"
           TRIP_TYPE:     "2"
-          OUTBOUND_DATE: "2026-05-11"
+          OUTBOUND_DATE: "2026-09-11"
           CURRENCY:      "CAD"
           HISTORY_FILE:  "history_gye_yyz.csv"   # ← its own separate file
         run: python flight_tracker.py
@@ -52,7 +52,7 @@ jobs:
   # JOB 2: YYZ → GYE (Jun 8 — return to Guayaquil)
   # ─────────────────────────────────────────────
   yyz-to-gye:
-    name: "YYZ → GYE (Jun 8)"
+    name: "YYZ → GYE (Oct 4)"
     needs: gye-to-yyz    # ← wait for Job 1 to fully complete first
     runs-on: ubuntu-latest
     permissions:
@@ -75,7 +75,7 @@ jobs:
           ORIGIN:        "YYZ"
           DESTINATION:   "GYE"
           TRIP_TYPE:     "2"
-          OUTBOUND_DATE: "2026-06-08"
+          OUTBOUND_DATE: "2026-10-04"
           CURRENCY:      "CAD"
           HISTORY_FILE:  "history_yyz_gye.csv"   # ← its own separate file
         run: python flight_tracker.py
