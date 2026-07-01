@@ -52,7 +52,7 @@ jobs:
   # JOB 2: YYZ → GYE (Jun 8 — return to Guayaquil)
   # ─────────────────────────────────────────────
   yyz-to-gye:
-    name: "YYZ → GYE (Sep 20)"
+    name: "YYZ → GYE (Sep 17)"
     needs: gye-to-yyz    # ← wait for Job 1 to fully complete first
     runs-on: ubuntu-latest
     permissions:
@@ -75,7 +75,7 @@ jobs:
           ORIGIN:        "YYZ"
           DESTINATION:   "GYE"
           TRIP_TYPE:     "2"
-          OUTBOUND_DATE: "2026-09-20"
+          OUTBOUND_DATE: "2026-09-17"
           CURRENCY:      "CAD"
           HISTORY_FILE:  "history_yyz_gye.csv"   # ← its own separate file
         run: python flight_tracker.py
