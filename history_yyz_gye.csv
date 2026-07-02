@@ -348,3 +348,4 @@ date,price,route,currency,price_level,typical_low,typical_high,airline
 2026-07-01 04:58,399,YYZ-GYE,CAD,typical,280,410,COPA
 2026-07-01 11:34,420,YYZ-GYE,CAD,high,280,410,American
 2026-07-01 18:19,420,YYZ-GYE,CAD,high,280,410,American
+2026-07-02 04:35,420,YYZ-GYE,CAD,high,280,410,American
