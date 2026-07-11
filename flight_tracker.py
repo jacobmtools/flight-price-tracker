@@ -18,8 +18,8 @@ ORIGIN           = os.environ.get("ORIGIN", "GYE")
 DESTINATION      = os.environ.get("DESTINATION", "YYZ")
 TRIP_TYPE        = int(os.environ.get("TRIP_TYPE", "2"))   # 2 = one-way
 CURRENCY         = os.environ.get("CURRENCY", "CAD")
-OUTBOUND_DATE    = os.environ.get("OUTBOUND_DATE", "2026-09-05")
-RETURN_DATE      = os.environ.get("RETURN_DATE", "2026-09-17")
+OUTBOUND_DATE    = os.environ.get("OUTBOUND_DATE", "2026-12-19")
+RETURN_DATE      = os.environ.get("RETURN_DATE", "2027-01-09")
 HISTORY_FILE     = os.environ.get("HISTORY_FILE", "price_history.csv")
 
 
