@@ -478,3 +478,4 @@ date,price,route,currency,price_level,typical_low,typical_high,airline
 2026-08-21 02:01,480,YYZ-GYE,CAD,typical,310,550,United
 2026-08-21 09:02,480,YYZ-GYE,CAD,typical,310,550,Avianca
 2026-08-21 16:56,480,YYZ-GYE,CAD,typical,310,550,Avianca
+2026-08-22 01:54,577,YYZ-GYE,CAD,high,310,550,Avianca
