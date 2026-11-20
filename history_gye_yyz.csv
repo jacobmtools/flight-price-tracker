@@ -688,3 +688,4 @@ date,price,route,currency,price_level,typical_low,typical_high,airline
 2026-11-17 17:41,433,GYE-YYZ,CAD,typical,365,510,COPA
 2026-11-18 07:43,451,GYE-YYZ,CAD,typical,370,510,American
 2026-11-18 17:21,707,GYE-YYZ,CAD,high,370,510,COPA
+2026-11-20 07:30,641,GYE-YYZ,CAD,high,370,520,Avianca
